@@ -15,7 +15,7 @@ git config --global user.name "John Doe"
 git config --global user.email johndoe@example.com
 ```
 * Activer authentification SSH sur ce dépôt
-* Java [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html), Java JRE, version 8
+* Java [JDK](http://www.webupd8.org/2014/03/how-to-install-oracle-java-8-in-debian.html), Java JRE, version 8
 
 
 ## A garder ouvert pendant le challenge
