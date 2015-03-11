@@ -3,19 +3,19 @@ Hashcode 2015 des Titans
 
 ## Config
 
-* Debian 7.8
+* [Debian 7.8](http://gemmei.acc.umu.se/debian-cd/7.8.0/amd64/iso-cd/debian-7.8.0-amd64-netinst.iso)
 * Sublime Text 3
 * Java 8
-* Github en ssh
+* Github avec clé ssh
 
 ## Installs
-Bien faire les git configs!
+* Bien faire les git configs!
 ```
 git config --global user.name "John Doe"
 git config --global user.email johndoe@example.com
 ```
-Clés SSH sur ce dépôt
-Java [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html), Java JRE, version 8
+* Activer authentification SSH sur ce dépôt
+* Java [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html), Java JRE, version 8
 
 
 ## A garder ouvert pendant le challenge
