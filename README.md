@@ -4,7 +4,7 @@ Hashcode 2015 des Titans
 ## Config
 
 * [Debian 7.8](http://gemmei.acc.umu.se/debian-cd/7.8.0/amd64/iso-cd/debian-7.8.0-amd64-netinst.iso)
-* Sublime Text 3
+* [Sublime Text 2](https://gist.github.com/vshvedov/1370650)
 * Java 8
 * Github avec clé ssh
 
