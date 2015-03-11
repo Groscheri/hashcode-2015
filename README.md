@@ -3,9 +3,20 @@ Hashcode 2015 des Titans
 
 ## Config
 
-Debian 7.8
-Sublime Text 3
-Java 8
+* Debian 7.8
+* Sublime Text 3
+* Java 8
+* Github en ssh
+
+## Installs
+Bien faire les git configs!
+```
+git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com
+```
+Clés SSH sur ce dépôt
+Java [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html), Java JRE, version 8
+
 
 ## A garder ouvert pendant le challenge
 
@@ -32,10 +43,11 @@ Un seul fichier java *Main.java* par problème, dans un dossier par problème.
 Les classes sont à faire en statique à l'intérieur
 (Voir fichier [template](https://github.com/Groscheri/hashcode-2015/blob/master/template/Main.java))
 
+*Tous* les attributs sont directement publics pour éviter les getters/setters
+
 Dupliquez le fichier template à chaque problème
 
 ## Compiler du java
-
 ```
 javac Main.java
 java Main
