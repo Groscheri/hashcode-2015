@@ -66,7 +66,6 @@ class Main {
 			while (i < j) {
 				s1 = servers.get(i);
 				s2 = servers.get(j);
-				System.out.println(i + ":" + j);
 				s1.group = g;
 				s2.group = g;
 				i++;
@@ -236,11 +235,16 @@ class Main {
                 
         }
 
+        for(int i=0;i<P; i++){
+        	Group g = new Group(i);
+        	groups.add(g);
+        }
+
         Collections.sort(rootGameState.servers, new CustomComparator());
-		/*rootGameState.setGroups(groups);
+		rootGameState.setGroups(groups);
 		for (Server server: rootGameState.servers) {
 			System.out.println(server.ratio + " to group : " + server.group.id);
-		}*/
+		}
         //----------------- Logic
         
         //------------------
