@@ -5,6 +5,7 @@ class Main {
     public static int R, S, U, P, M;
     public static Map<String,Boolean> unavailable = new HashMap<String,Boolean>();
     public static ArrayList<Server> servers = new ArrayList<Server>();
+    public static ArrayList<Group> groups = new ArrayList<Group>();
     
     public static GameState rootGameState = new GameState();
     
@@ -89,6 +90,8 @@ class Main {
         Group() {
 
         }
+        private int capacity_score = 0;
+        private Rangee best = null;
 
         public int getScore() {
             Map<Rangee, Integer> scores = new HashMap<Rangee, Integer>();
@@ -105,12 +108,32 @@ class Main {
                 }
             }
 
-            // calculer meilleur score si on enlève la meilleure rangée
+            //System.out.println("Score du groupe : ");
+            //scores.forEach((k,v) -> System.out.println(k + " => " + v));
 
-            // calculer meilleur rangée
+            // calculer meilleure rangée
+            scores.forEach((r, i) -> {
+                if (this.best == null) {
+                    this.best = r;
+                }
+                else {
+                    if (i > scores.get(this.best)) {
+                        this.best = r;
+                    }
+                }
+            });
 
             // calculer score sans elle => score_max - score_meilleure_rangee
-            return 0;
+            scores.forEach((r, i) -> {
+                if (r == this.best) {
+                    // nothing to do
+                }
+                else {
+                    this.capacity_score += i;
+                }
+            });
+
+            return this.capacity_score;
         }
 
         public int getCapacity() {
@@ -157,10 +180,26 @@ class Main {
                 rootGameState.servers.add(k);
         }
 
+        for (int i=0;i<P; i++) {
+            Group g = new Group();
+            groups.add(g);
+        }
+
         Collections.sort(rootGameState.servers, new CustomComparator());
         //----------------- Logic
         
         //------------------
+
+        groups.get(0).servers.add(servers.get(0));
+        groups.get(0).servers.add(servers.get(1));
+
+        servers.get(0).put(rootGameState.rangees.get(0), 10);
+        servers.get(1).put(rootGameState.rangees.get(0), 30);
+
+        System.out.println("Scores : " + servers.get(0).z + " / " + servers.get(1).z);
+
+        System.out.println("Score final du goupe 0 : " + groups.get(0).getScore());
+
         
         System.exit(0);
 
