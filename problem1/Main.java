@@ -29,11 +29,14 @@ class Main {
             	i = 0;
             	j = servers.size()-1;
             	Group g;
-            	Server s1 = servers.get(i);
-            	Server s2 = servers.get(j);
+            	Server s1;
+            	Server s2;
             	int numGroup = 0;
             	g = groups.get(numGroup);
             	while(i < j){
+            		s1 = servers.get(i);
+            		s2 = servers.get(j);
+            		System.out.println(i+":"+j);
             		s1.group = g;
             		s2.group = g;
             		i++; 
@@ -43,6 +46,10 @@ class Main {
               			numGroup = 0;
             		}
             		g = groups.get(numGroup);
+            	}
+            	if(i==j){
+            		s1 = servers.get(i);
+            		s1.group = g;
             	}
             }
     }
@@ -214,7 +221,7 @@ class Main {
         rootGameState.setGroups(groups);
 
         for(Server server : rootGameState.servers){
-        	System.out.println(server.ratio);
+        	System.out.println(server.ratio+" to group : "+server.group.id);
         }
 
         //----------------- Logic
