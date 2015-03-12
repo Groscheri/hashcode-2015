@@ -31,6 +31,7 @@ class Main {
                         }
                         if(indexOccupied + s.z < S){
                             rang.put(indexOccupied, s);
+                            s.put(this, indexOccupied);
                             placed = true;
                         }
                         
