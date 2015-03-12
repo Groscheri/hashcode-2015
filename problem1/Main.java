@@ -22,6 +22,28 @@ class Main {
 
                 return scores;
             }
+
+            public void setGroups(ArrayList<Group> groups){
+            	int i,j;
+            	i = 0;
+            	j = servers.size()-1;
+            	Group g;
+            	Server s1 = servers.get(i);
+            	Server s2 = servers.get(j);
+            	int numGroup = 0;
+            	g = groups.get(numGroup);
+            	while(i < j){
+            		s1.group = g;
+            		s2.group = g;
+            		i++; 
+            		j--;
+            		numGroup++;
+            		if(numGroup == groups.size()){
+              			numGroup = 0;
+            		}
+            		g = groups.get(numGroup);
+            	}
+            }
     }
     
     public static class Rangee{
@@ -55,7 +77,8 @@ class Main {
     public static class Server{
         public int z,c;
         public Rangee r; // rangée où il est placé [null si non placé]
-        public int s; // [slot] emplacement dans la rangée 
+        public int s; // [slot] emplacement dans la rangée
+        public Group group; //group auquel il appartient
         public double ratio;
         Server(int k, int l){
             r = null;
@@ -85,8 +108,9 @@ class Main {
 
     public static class Group{
         public ArrayList<Server> servers = new ArrayList<Server>();
-        Group() {
-
+        public int id;
+        Group(int i) {
+        	id = i;
         }
 
         public int getScore() {
@@ -157,7 +181,22 @@ class Main {
                 rootGameState.servers.add(k);
         }
 
+
+        ArrayList<Group> list = new ArrayList<Group>();
+
+        for(int i=0;i<P; i++){
+        	Group g = new Group(i);
+        	list.add(g);
+        }
+
         Collections.sort(rootGameState.servers, new CustomComparator());
+
+        rootGameState.setGroups(list);
+
+        for(Server server : rootGameState.servers){
+        	System.out.println(server.ratio);
+        }
+
         //----------------- Logic
         
         //------------------
