@@ -292,6 +292,7 @@ class Main {
         Runtime.getRuntime().addShutdownHook(new Thread() {
 			public void run() {
 				System.out.println("Meilleur score : " + bestSoFar.score + " (compteur : " + compteur + ")");
+                genOutput();
 			}
 		 });
         //------------------
