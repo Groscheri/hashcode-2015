@@ -22,10 +22,11 @@ class Main {
                         // First fit
                         Server o;
                         while((o = rang.get(indexOccupied)) != null){
-                                indexOccupied+=o.z;
-                        }
-                        while(unavailable.get(""+index+"-"+indexOccupied) != null){
-                            indexOccupied++;
+							indexOccupied+=o.z;
+							while(unavailable.get(""+index+"-"+indexOccupied) != null){
+								indexOccupied++;
+							}
+
                         }
                         if(indexOccupied + s.z < S){
                             rang.put(indexOccupied, s);
