@@ -1,6 +1,10 @@
 import java.util.*;
 import java.io.*;
 import java.math.*;
+import sun.misc.Signal;
+import sun.misc.SignalHandler;
+import java.lang.reflect.*;
+
 class Main {
 
         public static int R, S, U, P, M;
@@ -270,7 +274,11 @@ class Main {
 			System.out.println(server.ratio + " to group : " + server.group.id);
 		}
         //----------------- Logic
-        
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+			public void run() {
+				System.out.println("Meilleur score : " + bestSoFar.score);
+			}
+		 });
         //------------------
         //rootGameState.cServ = rootGameState.servers.get(0);
         rootGameState.cRang = rootGameState.rangees.get(0);
