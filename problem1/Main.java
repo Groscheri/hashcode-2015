@@ -71,6 +71,10 @@ class Main {
         M = in.nextInt();
         in.nextLine();
         
+        for(int i=0;i<R;i++){
+			rootGameState.rangees.add(new Rangee(i));
+		}
+        
         for(int i=0;i<U; i++){
                 String[] s = in.nextLine().split(" ");
                 int r = Integer.parseInt(s[0]);
@@ -89,5 +93,7 @@ class Main {
         //----------------- Logic
         
         //------------------
+        
+        System.exit(0);
     }
 }
