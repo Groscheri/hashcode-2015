@@ -225,6 +225,19 @@ class Main {
 		}
 	}
 
+	public static String genOutput () {
+        String output = "";
+        for (int i=0;i<bestSoFar.rangees.size();++i) {
+            for (Map.Entry<Integer, Server> entry : bestSoFar.rangees.get(i).rang.entrySet())
+            {
+                Server s = entry.getValue();
+                //System.out.println(""+s.r.index +" "+ s.s +" "+ s.group.id);
+                output+=""+s.r.index +" "+ s.s +" "+ s.group.id+"\n";
+            }
+        }
+        return output;
+    }
+
     public static void main(String args[]) {
 
 	//------------------
