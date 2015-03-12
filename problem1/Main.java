@@ -52,11 +52,10 @@ class Main {
 
 
 	public static class CustomComparator implements Comparator<Server> {
-	    @Override
 	    public int compare(Server o1, Server o2) {
-	        if (o1.ratio < o2.ratio){
+	        if (o1.ratio > o2.ratio){
 	        	return -1;
-	        } else if(o1.ratio > o2.ratio) {
+	        } else if(o1.ratio < o2.ratio) {
 	        	return 1;
 	        }
 	        return 0;
@@ -78,12 +77,13 @@ class Main {
         }
     }
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws FileNotFoundException {
 
 	//------------------
 
         //----------------- Inputs
-        Scanner in = new Scanner(System.in);
+        File file = new File("sample.txt");
+        Scanner in = new Scanner(file);
         R = in.nextInt();
         S = in.nextInt();
         U = in.nextInt();
