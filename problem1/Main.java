@@ -7,6 +7,7 @@ class Main {
         public static Map<String,Boolean> unavailable = new HashMap<String,Boolean>();
         public static ArrayList<Server> servers = new ArrayList<Server>();
         public static ArrayList<Rangee> rangees = new ArrayList<Rangee>();
+        public static ArrayList < Group > groups = new ArrayList < Group > ();
         
         public static GameState rootGameState;
         
@@ -44,6 +45,43 @@ class Main {
 			public String toString(){
 				return "GS: "+servers.size();
 			}
+			
+			// avoir map des scores pour chaque groupe
+		public Map < Group, Integer > getScore(ArrayList < Group > groups) {
+			Map < Group, Integer > scores = new HashMap < Group, Integer > ();
+			for (Group g: groups) {
+				scores.put(g, g.getScore());
+			}
+			return scores;
+		}
+		public void setGroups(ArrayList < Group > groups) {
+			int i, j;
+			i = 0;
+			j = servers.size() - 1;
+			Group g;
+			Server s1;
+			Server s2;
+			int numGroup = 0;
+			g = groups.get(numGroup);
+			while (i < j) {
+				s1 = servers.get(i);
+				s2 = servers.get(j);
+				System.out.println(i + ":" + j);
+				s1.group = g;
+				s2.group = g;
+				i++;
+				j--;
+				numGroup++;
+				if (numGroup == groups.size()) {
+					numGroup = 0;
+				}
+				g = groups.get(numGroup);
+			}
+			if (i == j) {
+				s1 = servers.get(i);
+				s1.group = g;
+			}
+		}
         }
         
         public static class Rangee implements Serializable{
@@ -75,17 +113,25 @@ class Main {
                 }
                 
         }
+        
 	    public static class Server implements Serializable{
-			public int z,c;
+			public int z, c;
+			public Rangee r; // rangée où il est placé [null si non placé]
+			public int s; // [slot] emplacement dans la rangée
+			public Group group; //group auquel il appartient
 			public double ratio;
-			Server(int k, int l){
+			Server(int k, int l) {
+				r = null;
+				s = -1;
 				z = k;
 				c = l;
-				ratio = (double)c / z;
+				ratio = (double) c / (double) z;
 			}
-			
-			public void put(Rangee r, int i){};
-        }
+			public void put(Rangee r, int s) {
+				this.r = r;
+				this.s = s;
+			}
+		}
 
 
 	public static class CustomComparator implements Comparator<Server> {
@@ -101,19 +147,56 @@ class Main {
 	}
 
     public static class Group implements Serializable{
-        public ArrayList<Server> servers = new ArrayList<Server>();
-        Group() {
-
-        }
-
-        public int getCapacity() {
-            int capacity = 0;
-            for (Server s : servers) {
-                capacity += s.c;
-            }
-            return capacity;
-        }
-    }
+		public ArrayList < Server > servers = new ArrayList < Server > ();
+		public int id;
+		Group(int i) {
+			id = i;
+		}
+		private int capacity_score = 0;
+		private Rangee best = null;
+		public int getScore() {
+			Map < Rangee, Integer > scores = new HashMap < Rangee, Integer > ();
+			for (Server s: servers) {
+				if (s.r != null) {
+					// serveur placé
+					Integer current_score = scores.get(s.r);
+					if (current_score == null) {
+						scores.put(s.r, 0);
+						current_score = 0;
+					}
+					scores.put(s.r, current_score + s.z);
+				}
+			}
+			//System.out.println("Score du groupe : ");
+			//scores.forEach((k,v) -> System.out.println(k + " => " + v));
+			// calculer meilleure rangée
+			scores.forEach((r, i) - > {
+				if (this.best == null) {
+					this.best = r;
+				} else {
+					if (i > scores.get(this.best)) {
+						this.best = r;
+					}
+				}
+			});
+			// calculer score sans elle => score_max - score_meilleure_rangee
+			scores.forEach((r, i) - > {
+				if (r == this.best) {
+					// nothing to do
+				} else {
+					this.capacity_score += i;
+				}
+			});
+			return this.capacity_score;
+		}
+		public int getCapacity() {
+			int capacity = 0;
+			for (Server s: servers) {
+				capacity += s.c;
+			}
+			return capacity;
+		}
+	}
 
     public static void main(String args[]) {
 
@@ -154,6 +237,10 @@ class Main {
         }
 
         Collections.sort(rootGameState.servers, new CustomComparator());
+		rootGameState.setGroups(groups);
+		for (Server server: rootGameState.servers) {
+			System.out.println(server.ratio + " to group : " + server.group.id);
+		}
         //----------------- Logic
         
         //------------------
