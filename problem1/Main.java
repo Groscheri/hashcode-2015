@@ -7,7 +7,7 @@ class Main {
         public static Map<String,Boolean> unavailable = new HashMap<String,Boolean>();
         public static ArrayList<Server> servers = new ArrayList<Server>();
         public static ArrayList<Rangee> rangees = new ArrayList<Rangee>();
-        //public static ArrayList < Group > groups = new ArrayList < Group > ();
+        public static ArrayList < Group > g_groups = new ArrayList < Group > ();
         
         public static GameState bestSoFar=null;
         public static GameState rootGameState;
@@ -25,7 +25,6 @@ class Main {
 			public ArrayList < Group > groups = new ArrayList < Group > ();
 			
 			GameState(){
-				
 			}
 			
 			public void process(){
@@ -33,7 +32,10 @@ class Main {
 					servers.remove(cServ);
 					// Compute score
 					score = getScore(groups);
-					if(score > bestSoFar.score){
+                    if (score > 0) {
+                        System.out.println(score);
+                    }
+					if(bestSoFar == null || score > bestSoFar.score){
 						bestSoFar = this;
 					}
 					// ----
@@ -54,12 +56,20 @@ class Main {
 			}
 			
 			// avoir map des scores pour chaque groupe
-		public Map < Group, Integer > getScore(ArrayList < Group > groups) {
-			Map < Group, Integer > scores = new HashMap < Group, Integer > ();
-			for (Group g: groups) {
-				scores.put(g, g.getScore());
-			}
-			return scores;
+		public int getScore(ArrayList < Group > groups) {
+			// Map < Group, Integer > scores = new HashMap < Group, Integer > ();
+			// for (Group g: groups) {
+			// 	scores.put(g, g.getScore());
+			// }
+			// return scores;
+            int best = 0;
+            for (Group g : groups) {
+                int score = g.getScore();
+                if (score > best) {
+                    best = score;
+                }
+            }
+            return best;
 		}
 		public void setGroups() {
 			int i, j;
@@ -246,8 +256,10 @@ class Main {
 
         for(int i=0;i<P; i++){
         	Group g = new Group(i);
-        	groups.add(g);
+        	g_groups.add(g);
         }
+
+        rootGameState.groups = g_groups;
 
         Collections.sort(rootGameState.servers, new CustomComparator());
 		rootGameState.setGroups();
@@ -272,6 +284,8 @@ class Main {
 		}
         
         // --------
+
+        System.out.println(bestSoFar.score);
         
         System.exit(0);
 
