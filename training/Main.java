@@ -15,6 +15,17 @@ class Main {
 			return x+"-"+y;
 		}
 	}
+
+    public static class Server{
+        public int z,c;
+        public double ratio;
+        Server(int k, int l){
+            z = k;
+            c = l;
+            ratio = (double)c / z;
+        }
+    }
+
     public static void main(String args[]) {
     	uneBonneGrosseVariableGlobale ++;
         System.out.println(new Point(42,uneBonneGrosseVariableGlobale));
@@ -56,6 +67,10 @@ class Main {
         // effacer la map
         map.clear();
         System.out.println("Taille de la map après clear : " + map.size());
+
+
+        Server a = new Server(4,5);
+        System.out.println(a.ratio);
     }
 
     public static void displayMap(Integer key, Point p) {
