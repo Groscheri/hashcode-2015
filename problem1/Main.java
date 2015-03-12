@@ -237,10 +237,10 @@ class Main {
         }
 
         Collections.sort(rootGameState.servers, new CustomComparator());
-		rootGameState.setGroups(groups);
+		/*rootGameState.setGroups(groups);
 		for (Server server: rootGameState.servers) {
 			System.out.println(server.ratio + " to group : " + server.group.id);
-		}
+		}*/
         //----------------- Logic
         
         //------------------
