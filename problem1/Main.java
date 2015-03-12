@@ -6,15 +6,47 @@ class Main {
         public static int R, S, U, P, M;
         public static Map<String,Boolean> unavailable = new HashMap<String,Boolean>();
         public static ArrayList<Server> servers = new ArrayList<Server>();
+        public static ArrayList<Rangee> rangees = new ArrayList<Rangee>();
         
-        public static GameState rootGameState = new GameState();
+        public static GameState rootGameState;
         
-        public static class GameState{
-                public ArrayList<Rangee> rangees = new ArrayList<Rangee>();
-                public static ArrayList<Server> servers = new ArrayList<Server>();        // remaining servers
+        public static ArrayList<GameState> toProcess = new ArrayList<GameState>();
+        
+        
+        
+        public static class GameState implements Serializable{
+			public Server cServ;
+			public Rangee cRang;
+			public int score=0;
+			public ArrayList<Rangee> rangees = new ArrayList<Rangee>();
+			public ArrayList<Server> servers = new ArrayList<Server>();        // remaining servers
+			
+			GameState(){
+				
+			}
+			
+			public void process(){
+				if(cServ == null || cRang.appendServerFF(cServ)){
+					servers.remove(cServ);
+					// Compute score
+					for(int i=0;i<rangees.size();i++){
+						for(int j=0;j<servers.size();j++){
+							
+							GameState gs = gameStateDeepCopy(this);
+							gs.cRang = gs.rangees.get(i);
+							gs.cServ = gs.servers.get(j);
+							toProcess.add(gs);
+						}
+					}
+				}
+			}
+			
+			public String toString(){
+				return "GS: "+servers.size();
+			}
         }
         
-        public static class Rangee{
+        public static class Rangee implements Serializable{
                 int indexOccupied = 0;
                 int index;
                 public Map<Integer, Server> rang = new HashMap<Integer, Server>();
@@ -41,8 +73,9 @@ class Main {
                 Rangee(int idx){
                     index = idx;
                 }
+                
         }
-	    public static class Server{
+	    public static class Server implements Serializable{
 			public int z,c;
 			public double ratio;
 			Server(int k, int l){
@@ -50,6 +83,8 @@ class Main {
 				c = l;
 				ratio = (double)c / z;
 			}
+			
+			public void put(Rangee r, int i){};
         }
 
 
@@ -65,7 +100,7 @@ class Main {
     	}
 	}
 
-    public static class Group{
+    public static class Group implements Serializable{
         public ArrayList<Server> servers = new ArrayList<Server>();
         Group() {
 
@@ -93,6 +128,8 @@ class Main {
         M = in.nextInt();
         in.nextLine();
         
+        rootGameState = new GameState();
+        
         for(int i=0;i<R;i++){
 			rootGameState.rangees.add(new Rangee(i));
 		}
@@ -113,14 +150,89 @@ class Main {
                 Server k = new Server(z,c);
                 servers.add(k);
                 rootGameState.servers.add(k);
+                
         }
 
         Collections.sort(rootGameState.servers, new CustomComparator());
         //----------------- Logic
         
         //------------------
+        //rootGameState.cServ = rootGameState.servers.get(0);
+        rootGameState.cRang = rootGameState.rangees.get(0);
+        //rootGameState.process();
+        
+        toProcess.add(rootGameState);
+        
+        while(toProcess.size()>0){
+			GameState tp = toProcess.get(0);
+			toProcess.remove(tp);
+			tp.process();
+			
+			//System.out.println(toProcess.size());
+		}
+        
+        // --------
         
         System.exit(0);
 
     }
+    
+    public static GameState gameStateDeepCopy(GameState gs){
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutput out = null;
+		try {
+		  out = new ObjectOutputStream(bos);   
+		  out.writeObject(gs);
+		  
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally {
+		  try {
+			if (out != null) {
+			  out.close();
+			}
+		  } catch (IOException ex) {
+			// ignore close exception
+		  }
+		  try {
+			bos.close();
+		  } catch (IOException ex) {
+			// ignore close exception
+		  }
+		}
+		
+		byte[] yourBytes = bos.toByteArray();
+		
+		ByteArrayInputStream bis = new ByteArrayInputStream(yourBytes);
+		ObjectInput ins = null;
+		GameState o=null;
+		try {
+		  ins = new ObjectInputStream(bis);
+		  o = (GameState)ins.readObject(); 
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally {
+		  try {
+			bis.close();
+		  } catch (IOException ex) {
+			// ignore close exception
+		  }
+		  try {
+			if (ins != null) {
+			  ins.close();
+			}
+		  } catch (IOException ex) {
+			// ignore close exception
+		  }
+		  catch(Exception e){
+			e.printStackTrace();
+		}
+		}
+		
+		return o;
+	}
 }
