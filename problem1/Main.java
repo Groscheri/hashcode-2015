@@ -6,8 +6,17 @@ class Main {
 	public static int R, S, U, P, M;
 
 	public static Map<String,Boolean> unavailable = new HashMap<String,Boolean>();
-	public static ArrayList<Server> servers = new ArrayList<Server>();
 	
+	public static GameState rootGameState = new GameState();
+	
+	public static class GameState{
+		public ArrayList<Rangee> rangees =  ArrayList<Rangee>();
+		public static ArrayList<Server> servers = new ArrayList<Server>();	// remaining servers
+	}
+	
+	public static class Rangee{
+		public ArrayList<Server> list = new ArrayList<Server>();
+	}
 
 	public static class Server{
 		public int z,c;
@@ -40,7 +49,7 @@ class Main {
 		int z = Integer.parseInt(s[0]);
 		int c = Integer.parseInt(s[1]);
 		
-		servers.add(new Server(z,c));
+		rootGameState.servers.add(new Server(z,c));
 	}
 	//----------------- Logic
 	
