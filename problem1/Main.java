@@ -11,10 +11,24 @@ class Main {
 
 	public static class Server{
 		public int z,c;
+		public double ratio;
 		Server(int k, int l){
 			z = k;
 			c = l;
+			ratio = (double)c / z;
 		}
+	}
+
+	public static class CustomComparator implements Comparator<Server> {
+	    @Override
+	    public int compare(Server o1, Server o2) {
+	        if (o1.ratio < o2.ratio){
+	        	return -1;
+	        } else if(o1.ratio > o2.ratio) {
+	        	return 1;
+	        }
+	        return 0;
+    	}
 	}
 
     public static void main(String args[]) {
@@ -42,8 +56,9 @@ class Main {
 		
 		servers.add(new Server(z,c));
 	}
+	Collections.sort(servers, new CustomComparator());
 	//----------------- Logic
-	
+
 	//------------------
     }
 }
