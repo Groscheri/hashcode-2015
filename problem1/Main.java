@@ -5,6 +5,7 @@ class Main {
 
         public static int R, S, U, P, M;
         public static Map<String,Boolean> unavailable = new HashMap<String,Boolean>();
+        public static ArrayList<Server> servers = new ArrayList<Server>();
         
         public static GameState rootGameState = new GameState();
         
@@ -90,6 +91,10 @@ class Main {
         M = in.nextInt();
         in.nextLine();
         
+        for(int i=0;i<R;i++){
+			rootGameState.rangees.add(new Rangee(i));
+		}
+        
         for(int i=0;i<U; i++){
                 String[] s = in.nextLine().split(" ");
                 int r = Integer.parseInt(s[0]);
@@ -103,13 +108,17 @@ class Main {
                 int z = Integer.parseInt(s[0]);
                 int c = Integer.parseInt(s[1]);
                 
-                rootGameState.servers.add(new Server(z,c));
+                Server k = new Server(z,c);
+                servers.add(k);
+                rootGameState.servers.add(k);
         }
 
         Collections.sort(rootGameState.servers, new CustomComparator());
         //----------------- Logic
         
         //------------------
+        
+        System.exit(0);
 
     }
 }
