@@ -7,8 +7,9 @@ class Main {
         public static Map<String,Boolean> unavailable = new HashMap<String,Boolean>();
         public static ArrayList<Server> servers = new ArrayList<Server>();
         public static ArrayList<Rangee> rangees = new ArrayList<Rangee>();
-        public static ArrayList < Group > groups = new ArrayList < Group > ();
+        //public static ArrayList < Group > groups = new ArrayList < Group > ();
         
+        public static GameState bestSoFar=null;
         public static GameState rootGameState;
         
         public static ArrayList<GameState> toProcess = new ArrayList<GameState>();
@@ -21,6 +22,7 @@ class Main {
 			public int score=0;
 			public ArrayList<Rangee> rangees = new ArrayList<Rangee>();
 			public ArrayList<Server> servers = new ArrayList<Server>();        // remaining servers
+			public ArrayList < Group > groups = new ArrayList < Group > ();
 			
 			GameState(){
 				
@@ -30,6 +32,11 @@ class Main {
 				if(cServ == null || cRang.appendServerFF(cServ)){
 					servers.remove(cServ);
 					// Compute score
+					score = getScore(groups);
+					if(score > bestSoFar.score){
+						bestSoFar = this;
+					}
+					// ----
 					for(int i=0;i<rangees.size();i++){
 						for(int j=0;j<servers.size();j++){
 							
@@ -54,7 +61,7 @@ class Main {
 			}
 			return scores;
 		}
-		public void setGroups(ArrayList < Group > groups) {
+		public void setGroups() {
 			int i, j;
 			i = 0;
 			j = servers.size() - 1;
@@ -120,11 +127,13 @@ class Main {
 			public int s; // [slot] emplacement dans la rangée
 			public Group group; //group auquel il appartient
 			public double ratio;
-			Server(int k, int l) {
+			public int id;
+			Server(int k, int l, int id) {
 				r = null;
 				s = -1;
 				z = k;
 				c = l;
+				this.id = id;
 				ratio = (double) c / (double) z;
 			}
 			public void put(Rangee r, int s) {
@@ -230,14 +239,14 @@ class Main {
                 int z = Integer.parseInt(s[0]);
                 int c = Integer.parseInt(s[1]);
                 
-                Server k = new Server(z,c);
+                Server k = new Server(z,c,i);
                 servers.add(k);
                 rootGameState.servers.add(k);
                 
         }
 
         Collections.sort(rootGameState.servers, new CustomComparator());
-		rootGameState.setGroups(groups);
+		rootGameState.setGroups();
 		for (Server server: rootGameState.servers) {
 			System.out.println(server.ratio + " to group : " + server.group.id);
 		}
@@ -319,6 +328,24 @@ class Main {
 			e.printStackTrace();
 		}
 		}
+		
+		/*
+		for(Rangee r : o.rangees){
+			Iterator it = r.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry pair = (Map.Entry)it.next();
+				for(Server ss : o.servers){
+					if(ss.id == pair.getValue().id){
+						r.put(pair.getKey(), ss);
+						break;
+					}
+				}
+				it.remove(); // avoids a ConcurrentModificationException
+			}
+		}
+		*/
+		
+		//o.servers.get(0).group.hashCode() == 
 		
 		return o;
 	} 
