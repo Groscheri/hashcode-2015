@@ -17,6 +17,8 @@ class Main {
         public static GameState rootGameState;
         
         public static ArrayList<GameState> toProcess = new ArrayList<GameState>();
+
+        public static int compteur = 0;
         
         
         
@@ -276,7 +278,7 @@ class Main {
         //----------------- Logic
         Runtime.getRuntime().addShutdownHook(new Thread() {
 			public void run() {
-				System.out.println("Meilleur score : " + bestSoFar.score);
+				System.out.println("Meilleur score : " + bestSoFar.score + " (compteur : " + compteur + ")");
 			}
 		 });
         //------------------
@@ -287,6 +289,7 @@ class Main {
         toProcess.add(rootGameState);
         
         while(toProcess.size()>0){
+            compteur++;
 			GameState tp = toProcess.get(0);
 			toProcess.remove(tp);
 			tp.process();
