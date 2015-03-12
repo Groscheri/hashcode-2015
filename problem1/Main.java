@@ -3,26 +3,29 @@ import java.io.*;
 import java.math.*;
 
 class Main {
-	public static int uneBonneGrosseVariableGlobale = 3;
-	public static class Point{
-		public int x,y;
-		Point(int n, int v){
-			this.x = n;
-			this.y = v;
-		}
+	int R, S, U, P, M;
 
-		public String toString(){
-			return x+"-"+y;
-		}
-	}
+
+
     public static void main(String args[]) {
-    	uneBonneGrosseVariableGlobale ++;
 	//----------------- Inputs
 	Scanner in = new Scanner(System.in);
+	R = in.nextInt();
+	S = in.nextInt();
+	U = in.nextInt();
+	P = in.nextInt();
+	M = in.nextInt();
+	in.nextLine();
 	
+	for(int i=0;i<U; i++){
+		String[] s = in.nextLine().split(" ");
+	}
+	for(int i=0;i<M; i++){
+		String[] s = in.nextLine().split(" ");
+		
+	}
 	//----------------- Logic
 	
 	//------------------
-        System.out.println(new Point(42,uneBonneGrosseVariableGlobale));
     }
 }
