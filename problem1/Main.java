@@ -32,9 +32,9 @@ class Main {
 					servers.remove(cServ);
 					// Compute score
 					score = getScore(groups);
-                    if (score > 0) {
-                        System.out.println(score);
-                    }
+                    // if (score > 0) {
+                    //     System.out.println(score);
+                    // }
 					if(bestSoFar == null || score > bestSoFar.score){
 						bestSoFar = this;
 					}
@@ -85,6 +85,8 @@ class Main {
 				s2 = servers.get(j);
 				s1.group = g;
 				s2.group = g;
+                g.servers.add(s1);
+                g.servers.add(s2);
 				i++;
 				j--;
 				numGroup++;
@@ -96,6 +98,7 @@ class Main {
 			if (i == j) {
 				s1 = servers.get(i);
 				s1.group = g;
+                g.servers.add(s1);
 			}
 		}
         }
@@ -285,7 +288,7 @@ class Main {
         
         // --------
 
-        System.out.println(bestSoFar.score);
+        System.out.println("Meilleur score : " + bestSoFar.score);
         
         System.exit(0);
 
