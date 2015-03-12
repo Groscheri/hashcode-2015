@@ -17,6 +17,12 @@ class Main {
 	}
     public static void main(String args[]) {
     	uneBonneGrosseVariableGlobale ++;
+	//----------------- Inputs
+	Scanner in = new Scanner(System.in);
+	
+	//----------------- Logic
+	
+	//------------------
         System.out.println(new Point(42,uneBonneGrosseVariableGlobale));
     }
 }
