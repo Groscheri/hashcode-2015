@@ -4,6 +4,7 @@ import java.math.*;
 class Main {
         public static int R, S, U, P, M;
         public static Map<String,Boolean> unavailable = new HashMap<String,Boolean>();
+        public static ArrayList<Server> servers = new ArrayList<Server>();
         
         public static GameState rootGameState = new GameState();
         
@@ -88,7 +89,9 @@ class Main {
                 int z = Integer.parseInt(s[0]);
                 int c = Integer.parseInt(s[1]);
                 
-                rootGameState.servers.add(new Server(z,c));
+                Server k = new Server(z,c);
+                servers.add(k);
+                rootGameState.servers.add(k);
         }
         //----------------- Logic
         
