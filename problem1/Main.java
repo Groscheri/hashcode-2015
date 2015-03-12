@@ -26,6 +26,21 @@ class Main {
 		}
 	}
 
+    public static class Group{
+        public ArrayList<Server> servers = new ArrayList<Server>();
+        Group() {
+
+        }
+
+        public int getCapacity() {
+            int capacity = 0;
+            for (Server s : servers) {
+                capacity += s.c;
+            }
+            return capacity;
+        }
+    }
+
     public static void main(String args[]) {
 	//----------------- Inputs
 	Scanner in = new Scanner(System.in);
