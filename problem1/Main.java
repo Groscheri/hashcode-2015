@@ -170,7 +170,7 @@ class Main {
 			//System.out.println("Score du groupe : ");
 			//scores.forEach((k,v) -> System.out.println(k + " => " + v));
 			// calculer meilleure rangée
-			scores.forEach((r, i) - > {
+			scores.forEach((r, i) -> {
 				if (this.best == null) {
 					this.best = r;
 				} else {
@@ -180,7 +180,7 @@ class Main {
 				}
 			});
 			// calculer score sans elle => score_max - score_meilleure_rangee
-			scores.forEach((r, i) - > {
+			scores.forEach((r, i) -> {
 				if (r == this.best) {
 					// nothing to do
 				} else {
