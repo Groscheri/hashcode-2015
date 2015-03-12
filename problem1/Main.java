@@ -14,7 +14,7 @@ class Main {
 
             // avoir map des scores pour chaque groupe
             public Map<Group, Integer> getScore(ArrayList<Group> groups) {
-                Map<Group, Integer> scores = new Map<Group, Integer>();
+                Map<Group, Integer> scores = new HashMap<Group, Integer>();
 
                 for (Group g : groups) {
                     scores.put(g, g.getScore());
@@ -40,6 +40,7 @@ class Main {
                     }
                     if(indexOccupied + s.z < S){
                         rang.put(indexOccupied, s);
+                        s.put(this, indexOccupied);
                         placed = true;
                     }
                     
@@ -55,11 +56,13 @@ class Main {
         public int z,c;
         public Rangee r; // rangée où il est placé [null si non placé]
         public int s; // [slot] emplacement dans la rangée 
+        public double ratio;
         Server(int k, int l){
             r = null;
             s = -1;
             z = k;
             c = l;
+            ratio = (double) c/ (double)z;
         }
 
         public void put(Rangee r, int s) {
@@ -68,6 +71,19 @@ class Main {
         }
     }
 
+
+	public static class CustomComparator implements Comparator<Server> {
+	    @Override
+	    public int compare(Server o1, Server o2) {
+	        if (o1.ratio < o2.ratio){
+	        	return -1;
+	        } else if(o1.ratio > o2.ratio) {
+	        	return 1;
+	        }
+	        return 0;
+    	}
+	}
+
     public static class Group{
         public ArrayList<Server> servers = new ArrayList<Server>();
         Group() {
@@ -75,19 +91,26 @@ class Main {
         }
 
         public int getScore() {
-            Map<Rangee, Integer> scores = new Map<Rangee, Integer>();
+            Map<Rangee, Integer> scores = new HashMap<Rangee, Integer>();
             for (Server s : servers) {
                 if (s.r != null) {
                     // serveur placé
 
-                    int current_score = scores.get(s.r);
+                    Integer current_score = scores.get(s.r);
                     if (current_score == null ) {
                         scores.put(s.r, 0);
                         current_score = 0;
                     }
-                    scores.put(current_score + s.z);
+                    scores.put(s.r, current_score + s.z);
                 }
             }
+
+            // calculer meilleur score si on enlève la meilleure rangée
+
+            // calculer meilleur rangée
+
+            // calculer score sans elle => score_max - score_meilleure_rangee
+            return 0;
         }
 
         public int getCapacity() {
@@ -100,6 +123,9 @@ class Main {
     }
 
     public static void main(String args[]) {
+
+	//------------------
+
         //----------------- Inputs
         Scanner in = new Scanner(System.in);
         R = in.nextInt();
@@ -130,10 +156,13 @@ class Main {
                 servers.add(k);
                 rootGameState.servers.add(k);
         }
+
+        Collections.sort(rootGameState.servers, new CustomComparator());
         //----------------- Logic
         
         //------------------
         
         System.exit(0);
+
     }
 }
